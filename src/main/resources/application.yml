@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/crud
+    username: root
+    password: Mary2810?
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  mail:
+    host: smtp.mailtrap.io
+    port: 465
+    protocol: smtp
+    username: 151b26d75abcb3
+    password: e248f5b7171c46
+application:
+  jwt:
+    secretKey: SecretKeyToGenJWTs
+    secretExpiration: 10
