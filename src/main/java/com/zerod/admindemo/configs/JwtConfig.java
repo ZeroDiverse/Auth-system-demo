@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Jwt configuration
+ */
 @Component
 @ConfigurationProperties(prefix = "application.jwt")
 @Getter
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtConfig {
+    //Secret key for jwt (NOT using right now)
     private String secretKey;
+    //Jwt Expiration date
     private Integer secretExpiration;
 }

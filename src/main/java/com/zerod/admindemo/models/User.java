@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 
+/**
+ * User model
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

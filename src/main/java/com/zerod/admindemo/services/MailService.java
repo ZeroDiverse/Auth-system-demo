@@ -16,6 +16,11 @@ import org.springframework.stereotype.Service;
 public class MailService {
     private final JavaMailSender javaMailSender;
 
+    /**
+     * Send message helper function
+     *
+     * @param mail mail model to be sent
+     */
     @Async
     public void sendMimeMessage(
             Mail mail) {

@@ -24,7 +24,7 @@ public class JwtService {
     public String generateToken(Authentication authentication) {
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("authorities", authentication.getAuthorities())
+                .claim("roles", authentication.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(jwtConfigs.getSecretExpiration())))
                 .signWith(key).compact();

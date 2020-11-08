@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.zerod.admindemo.services.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,21 +44,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .setSigningKey(JwtService.key)
                 .build()
                 .parseClaimsJws(token);
-        Claims body = claimsJws.getBody();
-        String username = body.getSubject();
-        var authorities = (List<Map<String, String>>) body.get("authorities");
+        try {
+            Claims body = claimsJws.getBody();
+            String username = body.getSubject();
 
-        Set<SimpleGrantedAuthority> simpleGrantedAuthoritySet = authorities.stream()
-                .map(m -> new SimpleGrantedAuthority(m.get("authority")))
-                .collect(Collectors.toSet());
+            var authorities = (List<Map<String, String>>) body.get("roles");
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                username,
-                null,
-                simpleGrantedAuthoritySet);
+            Set<SimpleGrantedAuthority> simpleGrantedAuthoritySet = authorities.stream()
+                    .map(m -> new SimpleGrantedAuthority(m.get("authority")))
+                    .collect(Collectors.toSet());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    username,
+                    null,
+                    simpleGrantedAuthoritySet);
 
+
+            //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            System.out.println(authentication);
+        } catch (JwtException e) {
+            throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
+        }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
