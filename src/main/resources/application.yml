@@ -22,4 +22,4 @@ spring:
 application:
   jwt:
     secretKey: SecretKeyToGenJWTs
-    secretExpiration: 10
+    secretExpiration: 90000
